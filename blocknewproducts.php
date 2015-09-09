@@ -312,7 +312,7 @@ function getNewProducts($id_lang, $page_number = 0, $nb_products = 10, $count = 
             FROM `'._DB_PREFIX_.'category_group` cg
             LEFT JOIN `'._DB_PREFIX_.'category_product` cp ON (cp.`id_category` = cg.`id_category`)
             WHERE cg.`id_group` '.(count($groups) ? 'IN ('.implode(',', $groups).')' : '= 1').'
-        ) AND cp.`id_category` = '.($id_lang == 2? 43:31);
+        ) AND cp.`id_category` = '.($id_lang == 2? 31:43);
     }
 
     if (strpos($order_by, '.') > 0)
