@@ -110,17 +110,17 @@ class BlockNewProducts extends Module
 	{
 		if (!$this->isCached('blocknewproducts.tpl', $this->getCacheId()))
 		{
-			if (!isset(BlockNewProducts::$cache_new_products))
-				BlockNewProducts::$cache_new_products = $this->getNewProducts();
+			if (!isset(BlockNewProducts::$cache_new_products[$params["cart"]->id_lang]))
+				BlockNewProducts::$cache_new_products[$params["cart"]->id_lang] = $this->getNewProducts();
 
 			$this->smarty->assign(array(
-				'new_products' => BlockNewProducts::$cache_new_products,
+				'new_products' => BlockNewProducts::$cache_new_products[$params["cart"]->id_lang],
 				'mediumSize' => Image::getSize(ImageType::getFormatedName('medium')),
 				'homeSize' => Image::getSize(ImageType::getFormatedName('home'))
 			));
 		}
 
-		if (BlockNewProducts::$cache_new_products === false)
+		if (BlockNewProducts::$cache_new_products[$params["cart"]->id_lang] === false)
 			return false;
 
 		return $this->display(__FILE__, 'blocknewproducts.tpl', $this->getCacheId());
@@ -141,9 +141,9 @@ class BlockNewProducts extends Module
 	public function hookdisplayHomeTab($params)
 	{
 		if (!$this->isCached('tab.tpl', $this->getCacheId('blocknewproducts-tab')))
-			BlockNewProducts::$cache_new_products = $this->getNewProducts();
+			BlockNewProducts::$cache_new_products[$params["cart"]->id_lang] = $this->getNewProducts();
 
-		if (BlockNewProducts::$cache_new_products === false)
+		if (BlockNewProducts::$cache_new_products[$params["cart"]->id_lang] === false)
 			return false;
 
 		return $this->display(__FILE__, 'tab.tpl', $this->getCacheId('blocknewproducts-tab'));
@@ -154,13 +154,13 @@ class BlockNewProducts extends Module
 		if (!$this->isCached('blocknewproducts_home.tpl', $this->getCacheId('blocknewproducts-home')))
 		{
 			$this->smarty->assign(array(
-				'new_products' => BlockNewProducts::$cache_new_products,
+				'new_products' => BlockNewProducts::$cache_new_products[$params["cart"]->id_lang],
 				'mediumSize' => Image::getSize(ImageType::getFormatedName('medium')),
 				'homeSize' => Image::getSize(ImageType::getFormatedName('home'))
 			));
 		}
 
-		if (BlockNewProducts::$cache_new_products === false)
+		if (BlockNewProducts::$cache_new_products[$params["cart"]->id_lang] === false)
 			return false;
 
 		return $this->display(__FILE__, 'blocknewproducts_home.tpl', $this->getCacheId('blocknewproducts-home'));
